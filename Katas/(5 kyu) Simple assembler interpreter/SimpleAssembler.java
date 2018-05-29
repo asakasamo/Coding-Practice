@@ -4,7 +4,6 @@ public class SimpleAssembler {
   
   private Map<String, Integer> registers;
   private List<Instruction> callStack;
-  private int currentPosition;
   
   //our starting point
   public static Map<String, Integer> interpret(String[] program){
@@ -15,7 +14,6 @@ public class SimpleAssembler {
   public SimpleAssembler() {
     registers = new HashMap<String, Integer>();
     callStack = new ArrayList<Instruction>();
-    currentPosition = 0;
   }
   
   public static SimpleAssembler instance() {
@@ -29,12 +27,18 @@ public class SimpleAssembler {
     }
     
     //print the call stack
-//     for(int i = 0; i < program.length; i++){
-//       callStack.get(i).print();
-//     }
+    for(int i = 0; i < program.length; i++){
+      System.out.println(i + ". " + callStack.get(i));
+    }
+    System.out.println();
     
-    currentPosition = 0;
-    return(callStack.get(currentPosition).execute());
+    //execute the call stack
+    int nextPosition = 0;
+    while(nextPosition > -1 && nextPosition < callStack.size()){
+      nextPosition += callStack.get(nextPosition).execute();
+    }
+    
+    return registers;
   }
   
   private class Instruction {
@@ -49,8 +53,8 @@ public class SimpleAssembler {
       param2 = parts.length > 2 ? parts[2] : null;
     } 
    
-    public Map<String, Integer> execute() {
-      print();
+    public int execute() {
+//       print();
       int modifier = 1;
       
       if(name.equals("mov")) {
@@ -66,21 +70,28 @@ public class SimpleAssembler {
         registers.put(param1, registers.get(param1) - 1);
       }
       else if(name.equals("jnz")) {
-        //TODO: Make the jnz work! It's the last issue remaining.
+        int x;
+        if(param1.chars().allMatch(Character::isLetter)) { //if param1 is a register
+          x = registers.get(param1);
+        }
+        else {
+          x = Integer.parseInt(param1);
+        }
+        
+        if(x != 0) {
+          modifier = Integer.parseInt(param2);
+        }
       }
       
-      currentPosition++;
-      
-      if(currentPosition < 0 || currentPosition >= callStack.size()) {
-        return registers;
-      }
-      else {
-        return callStack.get(currentPosition).execute();
-      }
+      return modifier;
     }
     
     public void print() {
-      System.out.println("Name: " + name + ", p1: " + param1 + ", p2: " + param2);
+      System.out.println(this);
+    }
+    
+    public String toString() {
+      return "Name: " + name + ", p1: " + param1 + ", p2: " + param2;
     }
   }
 }
