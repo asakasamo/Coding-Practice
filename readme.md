@@ -1,17 +1,9 @@
-My Coding Practice
----
-*aka "katas and stuff"*
-***
+# My Coding Practice
 
-This repo contains code I've written for practice. Most of it was written off the cuff, 
-so you won't see much in terms of test files or sophisticated installation instructions.
+This repo contains code I've written for practice (mostly my solutions to coding puzzles on Codewars). It's a good demonstration of what it looks like when I'm just coding on the fly - I didn't spend more than a day on any of the code here.
 
-To see it work, just copy the code, paste it into your favorite IDE (or whatever setup you've got), and run it.
+The subfolders of the repo correspond to the language the code is written in (e.g. Java code is in the "Java" folder).
 
-### What is this repository for?
+### Feel free to comment!
 
-This is a demonstration of what my "quick code" looks like.
-
-### Contribution guidelines
-
-This is all "finished" code, but I'm open to any and all feedback.
+This is all "finished" code, but I'm open to any and all feedback!
